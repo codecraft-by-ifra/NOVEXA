@@ -30,11 +30,65 @@ const addProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    let products = await Product.find({});
+    const { category, search, minPrice, maxPrice } = req.query;
+    let filter = {};
+
+    if (category) {
+      filter.category = category;
+    }
+
+    if (search) {
+      filter.name = { $regex: search, $options: "i" };
+    }
+
+    if (minPrice || maxPrice) {
+      filter.new_price = {};
+      if (minPrice) filter.new_price.$gte = Number(minPrice);
+      if (maxPrice) filter.new_price.$lte = Number(maxPrice);
+    }
+
+    let products = await Product.find(filter);
     res.json(products);
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+const updateProduct = async (req, res) => {
+  try {
+    const product = await Product.findOne({ id: req.params.id });
 
-module.exports = { addProduct, getAllProducts };
+    if (!product) {
+      return res.status(404).json({ success: false, error: "Product not found" });
+    }
+
+    product.name = req.body.name;
+    product.category = req.body.category;
+    product.image = req.body.image;
+    product.new_price = req.body.new_price;
+    product.old_price = req.body.old_price;
+    product.quantity = req.body.quantity;
+    product.available = req.body.quantity > 0;
+
+    await product.save();
+
+    res.json({ success: true, product });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+const deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findOneAndDelete({ id: req.params.id });
+
+    if (!product) {
+      return res.status(404).json({ success: false, error: "Product not found" });
+    }
+
+    res.json({ success: true, message: "Product deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+module.exports = { addProduct, getAllProducts, updateProduct, deleteProduct };

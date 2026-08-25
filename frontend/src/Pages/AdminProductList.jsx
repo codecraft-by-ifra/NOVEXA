@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import EditProductModal from '../Components/EditProductModal'
 
 export default function AdminProductList() {
     const [allProducts, setAllProducts] = useState([]);
+    const [editingProduct, setEditingProduct] = useState(null);
 
     const fetchInfo = () => {
         fetch("http://localhost:4000/allproducts")
@@ -12,6 +14,29 @@ export default function AdminProductList() {
     useEffect(() => {
         fetchInfo();
     }, []);
+
+    const deleteProduct = async (product) => {
+        const confirmed = window.confirm(`Delete "${product.name}"? This cannot be undone.`);
+        if (!confirmed) return;
+
+        try {
+            const adminToken = localStorage.getItem("admin-token");
+            const response = await fetch(`http://localhost:4000/admin/products/${product.id}`, {
+                method: "DELETE",
+                headers: { "admin-token": adminToken },
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                fetchInfo();
+            } else {
+                alert(data.error || "Failed to delete product");
+            }
+        } catch (error) {
+            alert("Something went wrong. Try again.");
+        }
+    };
 
     return (
         <div className="flex flex-col gap-6 px-4 md:px-16 py-8">
@@ -27,6 +52,7 @@ export default function AdminProductList() {
                             <th className="py-3 px-2">Price</th>
                             <th className="py-3 px-2">Stock</th>
                             <th className="py-3 px-2">Status</th>
+                            <th className="py-3 px-2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,12 +75,37 @@ export default function AdminProductList() {
                                             Out of Stock
                                         </span>
                                     )}
+                                    
+                                </td>
+                                <td className="py-3 px-2">
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => setEditingProduct(product)}
+                                            className="px-3 py-1.5 rounded-lg border border-gray-300 text-gray-700 text-xs font-medium cursor-pointer hover:bg-gray-50"
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() => deleteProduct(product)}
+                                            className="px-3 py-1.5 rounded-lg border border-red-300 text-red-600 text-xs font-medium cursor-pointer hover:bg-red-50"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
+
+            {editingProduct && (
+                <EditProductModal
+                    product={editingProduct}
+                    onClose={() => setEditingProduct(null)}
+                    onUpdated={fetchInfo}
+                />
+            )}
         </div>
     );
 }

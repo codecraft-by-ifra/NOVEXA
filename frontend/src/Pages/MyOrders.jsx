@@ -24,6 +24,33 @@ export default function MyOrders() {
             .catch(() => setLoading(false));
     };
 
+    const cancelOrder = async (orderId) => {
+        const confirmed = window.confirm("Are you sure you want to cancel this order?");
+        if (!confirmed) return;
+
+        const token = localStorage.getItem("auth-token");
+        try {
+            const response = await fetch(`http://localhost:4000/cancelorder/${orderId}`, {
+                method: "PUT",
+                headers: { "auth-token": token },
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setOrders((prev) =>
+                    prev.map((order) =>
+                        order._id === orderId ? { ...order, status: "Cancelled" } : order
+                    )
+                );
+            } else {
+                alert(data.error || "Failed to cancel order");
+            }
+        } catch (error) {
+            alert("Something went wrong. Try again.");
+        }
+    };
+
     useEffect(() => {
         fetchOrders();
     }, []);
@@ -64,9 +91,20 @@ export default function MyOrders() {
                                 </p>
                                 <p className="text-sm text-gray-500">Order ID: {order._id}</p>
                             </div>
-                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColor(order.status)}`}>
-                                {order.status}
-                            </span>
+                            
+                            <div className="flex items-center gap-2">
+                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColor(order.status)}`}>
+                                    {order.status}
+                                </span>
+                                {order.status === "Pending" && (
+                                    <button
+                                        onClick={() => cancelOrder(order._id)}
+                                        className="px-3 py-1 rounded-full border border-red-300 text-red-600 text-xs font-medium cursor-pointer hover:bg-red-50"
+                                    >
+                                        Cancel Order
+                                    </button>
+                                )}
+                            </div>
                         </div>
 
                         <div className="mt-3 flex flex-col gap-1">
