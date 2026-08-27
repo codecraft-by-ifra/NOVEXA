@@ -9,7 +9,7 @@ const ShopContextProvider = (props) => {
     const [wishlist, setWishlist] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:4000/allproducts")
+        fetch(API_URL + "/allproducts")
             .then((res) => res.json())
             .then((data) => setAll_product(data));
     }, []);
@@ -17,7 +17,7 @@ const ShopContextProvider = (props) => {
     useEffect(() => {
         const token = localStorage.getItem("auth-token");
         if (token) {
-            fetch("http://localhost:4000/getcart", {
+            fetch(API_URL + "/getcart", {
                 headers: {
                     "auth-token": token,
                 },
@@ -35,7 +35,7 @@ const ShopContextProvider = (props) => {
         }
 
         try {
-            const response = await fetch("http://localhost:4000/addtocart", {
+            const response = await fetch(API_URL + "/addtocart", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const ShopContextProvider = (props) => {
 
         const token = localStorage.getItem("auth-token");
         if (token) {
-            fetch("http://localhost:4000/removefromcart", {
+            fetch(API_URL + "/removefromcart", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -95,7 +95,7 @@ const ShopContextProvider = (props) => {
             return;
         }
 
-        fetch("http://localhost:4000/getwishlist", {
+        fetch(API_URL + "/getwishlist", {
             headers: { "auth-token": token },
         })
             .then((res) => res.json())
@@ -115,8 +115,8 @@ const ShopContextProvider = (props) => {
 
         const isInWishlist = wishlist.includes(itemId);
         const url = isInWishlist
-            ? "http://localhost:4000/removefromwishlist"
-            : "http://localhost:4000/addtowishlist";
+            ? API_URL + "/removefromwishlist"
+            : API_URL + "/addtowishlist";
 
         try {
             const response = await fetch(url, {
@@ -142,7 +142,7 @@ const ShopContextProvider = (props) => {
     const fetchCart = () => {
         const token = localStorage.getItem("auth-token");
         if (token) {
-            fetch("http://localhost:4000/getcart", {
+            fetch(API_URL + "/getcart", {
                 headers: {
                     "auth-token": token,
                 },

@@ -42,7 +42,7 @@ export default function DescriptionBox({ productId }) {
 
     setSubmitting(true);
     try {
-      const response = await fetch("http://localhost:4000/addreview", {
+      const response = await fetch(API_URL + "/addreview", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

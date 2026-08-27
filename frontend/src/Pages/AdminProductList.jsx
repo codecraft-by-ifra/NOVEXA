@@ -6,7 +6,7 @@ export default function AdminProductList() {
     const [editingProduct, setEditingProduct] = useState(null);
 
     const fetchInfo = () => {
-        fetch("http://localhost:4000/allproducts")
+        fetch(API_URL + "/allproducts")
             .then((res) => res.json())
             .then((data) => setAllProducts(data));
     };

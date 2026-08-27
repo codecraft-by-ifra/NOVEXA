@@ -30,7 +30,7 @@ export default function AddProduct() {
             let formData = new FormData();
             formData.append("product", image);
 
-            const uploadResponse = await fetch("http://localhost:4000/upload", {
+            const uploadResponse = await fetch(API_URL + "/upload", {
                 method: "POST",
                 body: formData,
             });
@@ -47,7 +47,7 @@ export default function AddProduct() {
                 image: uploadData.image_url,
             };
 
-            const response = await fetch("http://localhost:4000/addproduct", {
+            const response = await fetch(API_URL + "/addproduct", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

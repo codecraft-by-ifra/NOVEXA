@@ -17,7 +17,7 @@ export default function Search() {
     const categoryMap = { man: "men", woman: "women", kids: "kid" };
     const isCategory = ["men", "man", "women", "woman", "kid", "kids"].includes(normalizedQuery);
 
-    let url = "http://localhost:4000/allproducts?";
+    let url = API_URL + "/allproducts?";
     if (isCategory) {
       url += `category=${categoryMap[normalizedQuery] || normalizedQuery}`;
     } else {

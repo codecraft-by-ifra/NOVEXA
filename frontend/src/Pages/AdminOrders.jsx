@@ -8,7 +8,7 @@ export default function AdminOrders() {
 
     const fetchOrders = () => {
         const token = localStorage.getItem("admin-token");
-        fetch("http://localhost:4000/admin/orders", {
+        fetch(API_URL + "/admin/orders", {
             headers: { "admin-token": token },
         })
             .then((res) => res.json())

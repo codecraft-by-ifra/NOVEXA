@@ -18,7 +18,7 @@ export default function LoginSignup() {
 
   const login = async () => {
     try {
-      const response = await fetch("http://localhost:4000/login", {
+      const response = await fetch(API_URL + "/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export default function LoginSignup() {
 
   const signup = async () => {
     try {
-      const response = await fetch("http://localhost:4000/signup", {
+      const response = await fetch(API_URL + "/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

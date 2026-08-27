@@ -14,7 +14,7 @@ export default function Wishlist() {
             return;
         }
 
-        fetch("http://localhost:4000/getwishlist", {
+        fetch(API_URL + "/getwishlist", {
             headers: { "auth-token": token },
         })
             .then((res) => res.json())

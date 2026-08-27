@@ -11,7 +11,7 @@ export default function MyOrders() {
             return;
         }
 
-        fetch("http://localhost:4000/myorders", {
+        fetch(API_URL + "/myorders", {
             headers: { "auth-token": token },
         })
             .then((res) => res.json())

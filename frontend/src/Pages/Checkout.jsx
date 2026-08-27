@@ -54,7 +54,7 @@ export default function Checkout() {
         const token = localStorage.getItem("auth-token");
 
         try {
-            const response = await fetch("http://localhost:4000/placeorder", {
+            const response = await fetch(API_URL + "/placeorder", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
