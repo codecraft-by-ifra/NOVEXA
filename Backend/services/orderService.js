@@ -11,7 +11,7 @@ const restoreStockForOrder = async (order) => {
         const restoredProduct = await Product.findOneAndUpdate(
             { id: item.productId },
             { $inc: { quantity: item.quantity } },
-            { new: true }
+            { returnDocument: "after" }
         );
 
         if (restoredProduct && restoredProduct.quantity > 0 && !restoredProduct.available) {
@@ -29,7 +29,7 @@ const createOrder = async (userId, { items, amount, address }) => {
             const updatedProduct = await Product.findOneAndUpdate(
                 { id: item.productId, quantity: { $gte: item.quantity } },
                 { $inc: { quantity: -item.quantity } },
-                { new: true }
+                { returnDocument: "after" }
             );
 
             if (!updatedProduct) {
@@ -69,7 +69,7 @@ const createOrder = async (userId, { items, amount, address }) => {
             const restoredProduct = await Product.findOneAndUpdate(
                 { id: item.productId },
                 { $inc: { quantity: item.quantity } },
-                { new: true }
+                { returnDocument: "after" }
             );
 
             if (restoredProduct && restoredProduct.quantity > 0 && !restoredProduct.available) {
