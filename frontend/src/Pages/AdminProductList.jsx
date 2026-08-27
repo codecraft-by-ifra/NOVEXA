@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import EditProductModal from '../Components/EditProductModal'
+import { API_URL } from '../config';
+
 
 export default function AdminProductList() {
     const [allProducts, setAllProducts] = useState([]);

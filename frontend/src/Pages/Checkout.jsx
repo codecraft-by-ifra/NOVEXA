@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { ShopContext } from '../Context/ShopContext';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../config';
+
 
 export default function Checkout() {
     const { all_product, cartitems, fetchCart } = useContext(ShopContext);

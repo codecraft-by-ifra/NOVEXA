@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
+import { API_URL } from '../config';
+
 
 export default function LoginSignup() {
   const { fetchCart } = useContext(ShopContext);

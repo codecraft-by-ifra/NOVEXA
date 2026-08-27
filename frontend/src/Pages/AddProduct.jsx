@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { API_URL } from '../config';
+
 
 export default function AddProduct() {
     const [image, setImage] = useState(null);

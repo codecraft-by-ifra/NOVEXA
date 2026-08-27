@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { ShopContext } from '../Context/ShopContext'
 import Item from '../Components/Item'
+import { API_URL } from '../config';
+
 
 export default function Search() {
-  const { addToCart } = useContext(ShopContext);
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     setLoading(true);

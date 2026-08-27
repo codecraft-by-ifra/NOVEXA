@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { API_URL } from '../config';
+
 
 const STATUS_OPTIONS = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
 

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ShopContext } from '../Context/ShopContext';
 import Item from '../Components/Item';
+import { API_URL } from '../config';
 
 export default function Wishlist() {
     const { fetchWishlist } = useContext(ShopContext);
