@@ -61,8 +61,7 @@ export default function Navbar() {
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                     placeholder="Search products..."
-                    className="flex-1 bg-transparent outline-none text-sm text-gray-700 placeholder:text-gray-400"
-                />
+                    className="flex-1 bg-transparent outline-none text-sm text-gray-700 placeholder:text-gray-400"/>
                 <button type="submit" className="cursor-pointer">
                     <img src={search_icon} alt='search' className="w-10 h-7 opacity-60"></img>
                 </button>
@@ -73,17 +72,20 @@ export default function Navbar() {
                     <>
                         <Link
                             to={'/orders'}
-                            className="text-gray-700 text-sm md:text-base font-medium no-underline hover:text-red-500 transition-colors hidden md:block"
-                        >
+                            className="text-gray-700 text-sm md:text-base font-medium no-underline hover:text-red-500 transition-colors hidden md:block">
                             My Orders
+                        </Link>
+                        <Link
+                            to={'/wishlist'}
+                            className="text-gray-700 text-sm md:text-base font-medium no-underline hover:text-red-500 transition-colors hidden md:block" >
+                            Wishlist
                         </Link>
                         <button
                             onClick={() => {
                                 logout();
                                 navigate('/Login');
                             }}
-                            className="w-24 h-10 md:w-32 md:h-12 rounded-full text-gray-700 bg-white border border-gray-300 text-sm md:text-base font-medium cursor-pointer hover:bg-gray-50 transition-colors"
-                        >
+                            className="w-24 h-10 md:w-32 md:h-12 rounded-full text-gray-700 bg-white border border-gray-300 text-sm md:text-base font-medium cursor-pointer hover:bg-gray-50 transition-colors">
                             Logout
                         </button>
                     </>

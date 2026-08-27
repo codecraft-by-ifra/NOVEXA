@@ -15,6 +15,8 @@ import NotFound from './Pages/NotFound';
 import SearchBar from './Pages/SearchBar';
 import Checkout from './Pages/Checkout';
 import MyOrders from './Pages/MyOrders';
+import Wishlist from './Pages/Wishlist';
+
 import AdminLogin from './Pages/AdminLogin';
 import AddProduct from './Pages/AddProduct';
 import AdminProductList from './Pages/AdminProductList';
@@ -48,6 +50,7 @@ function App() {
               <Route path='/search' element={<SearchBar />}></Route>
               <Route path='/checkout' element={<Checkout />} />
               <Route path='/orders' element={<MyOrders />} />
+              <Route path='/wishlist' element={<Wishlist />} />
               <Route path='*' element={<NotFound />}></Route>
             </Route>
 

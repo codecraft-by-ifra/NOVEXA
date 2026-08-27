@@ -6,6 +6,7 @@ const ShopContextProvider = (props) => {
 
     const [all_product, setAll_product] = useState([]);
     const [cartitems, setcartitems] = useState({});
+    const [wishlist, setWishlist] = useState([]);
 
     useEffect(() => {
         fetch("http://localhost:4000/allproducts")
@@ -87,6 +88,57 @@ const ShopContextProvider = (props) => {
         return totalitem;
     }
 
+    const fetchWishlist = () => {
+        const token = localStorage.getItem("auth-token");
+        if (!token) {
+            setWishlist([]);
+            return;
+        }
+
+        fetch("http://localhost:4000/getwishlist", {
+            headers: { "auth-token": token },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success) {
+                    setWishlist(data.products.map((p) => p.id));
+                }
+            });
+    };
+
+    const toggleWishlist = async (itemId) => {
+        const token = localStorage.getItem("auth-token");
+        if (!token) {
+            alert("Please login first");
+            return;
+        }
+
+        const isInWishlist = wishlist.includes(itemId);
+        const url = isInWishlist
+            ? "http://localhost:4000/removefromwishlist"
+            : "http://localhost:4000/addtowishlist";
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "auth-token": token,
+                },
+                body: JSON.stringify({ itemId }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setWishlist(data.wishlist);
+            }
+        } catch (error) {
+            alert("Something went wrong. Try again.");
+        }
+    };
+
+
     const fetchCart = () => {
         const token = localStorage.getItem("auth-token");
         if (token) {
@@ -104,14 +156,16 @@ const ShopContextProvider = (props) => {
 
     useEffect(() => {
         fetchCart();
+        fetchWishlist();
     }, []);
 
     const logout = () => {
         localStorage.removeItem("auth-token");
         setcartitems({});
+        setWishlist([]);
     };
 
-    const contextValue = { all_product, cartitems, addToCart, removeToCart, getTotalCartNumbers, fetchCart, logout };
+    const contextValue = { all_product, cartitems, addToCart, removeToCart, getTotalCartNumbers, fetchCart, logout, wishlist, toggleWishlist, fetchWishlist};
     return (
         <ShopContext.Provider value={contextValue}>
             {props.children}

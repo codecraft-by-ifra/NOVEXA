@@ -1,6 +1,7 @@
 const Order = require("../models/orders");
 const User = require("../models/User");
 const Product = require("../models/Product");
+const emailService = require("./emailService");
 
 const ALLOWED_STATUSES = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
 const TERMINAL_STATUSES = ["Cancelled", "Delivered"];
@@ -52,6 +53,15 @@ const createOrder = async (userId, { items, amount, address }) => {
             { _id: userId },
             { cartData: {} }
         );
+
+        try {
+            const user = await User.findOne({ _id: userId });
+            if (user) {
+                await emailService.sendOrderConfirmationEmail(user.email, order);
+            }
+        } catch (emailError) {
+            console.log("Order confirmation email failed to send:", emailError.message);
+        }
 
         return order;
     } catch (error) {

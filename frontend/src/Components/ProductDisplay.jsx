@@ -6,7 +6,7 @@ import { ShopContext } from '../Context/ShopContext';
 export default function ProductDisplay(props) {
     const { Product } = props;
     const [selectedSize, setSelectedSize] = useState(null);
-    const { addToCart, cartitems } = useContext(ShopContext);
+    const { addToCart, cartitems, wishlist, toggleWishlist } = useContext(ShopContext);
 
     const qtyInCart = cartitems[Product.id] || 0;
     const isOutOfStock = qtyInCart >= Product.quantity;
@@ -66,21 +66,32 @@ export default function ProductDisplay(props) {
                     </div>
                 </div>
 
-                {isOutOfStock ? (
+                <div className="flex items-center gap-3 mt-4">
+                    {isOutOfStock ? (
+                        <button
+                            disabled
+                            className="w-52 md:w-60 h-12 md:h-14 rounded-full bg-gray-300 text-gray-600 text-sm md:text-base font-bold cursor-not-allowed"
+                        >
+                            Out of Stock
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => { addToCart(Product.id) }}
+                            className="w-52 md:w-60 h-12 md:h-14 rounded-full bg-gradient-to-r from-red-500 to-pink-500 text-white text-sm md:text-base font-bold cursor-pointer hover:scale-[1.02] hover:shadow-lg hover:shadow-red-200 transition-all duration-300"
+                        >
+                            Add To Cart
+                        </button>
+                    )}
+
                     <button
-                        disabled
-                        className="mt-4 w-52 md:w-60 h-12 md:h-14 rounded-full bg-gray-300 text-gray-600 text-sm md:text-base font-bold cursor-not-allowed"
+                        onClick={() => toggleWishlist(Product.id)}
+                        className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full border border-gray-300 hover:border-red-300 transition-colors cursor-pointer"
                     >
-                        Out of Stock
+                        <span className={wishlist.includes(Product.id) ? "text-red-500" : "text-gray-400"} style={{ fontSize: "22px" }}>
+                            {wishlist.includes(Product.id) ? "♥" : "♡"}
+                        </span>
                     </button>
-                ) : (
-                    <button
-                        onClick={() => { addToCart(Product.id) }}
-                        className="mt-4 w-52 md:w-60 h-12 md:h-14 rounded-full bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm md:text-base font-bold cursor-pointer hover:scale-[1.02] hover:shadow-lg hover:shadow-red-200 transition-all duration-300"
-                    >
-                        Add To Cart
-                    </button>
-                )}
+                </div>
 
                 <div className="flex flex-col gap-1 mt-4 pt-4 border-t border-gray-100">
                     <p className="text-gray-500 text-xs md:text-sm m-0">

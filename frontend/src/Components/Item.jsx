@@ -1,11 +1,27 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
+import { ShopContext } from '../Context/ShopContext';
 
 export default function Item(props) {
+    const { wishlist, toggleWishlist } = useContext(ShopContext);
+    const isWishlisted = wishlist.includes(props.id);
+
     return (
         <div>
             <div className='flex flex-col gap-2 w-full max-w-[250px] cursor-pointer group'>
-                <div className="overflow-hidden rounded-lg">
+                <div className="overflow-hidden rounded-lg relative">
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            toggleWishlist(props.id);
+                        }}
+                        className="absolute top-2 right-2 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white/90 hover:bg-white transition-colors cursor-pointer"
+                    >
+                        <span className={isWishlisted ? "text-red-500" : "text-gray-400"} style={{ fontSize: "18px" }}>
+                            {isWishlisted ? "♥" : "♡"}
+                        </span>
+                    </button>
+
                     <Link to={`/product/${props.id}`}><img
                         src={props.image} alt="" onClick={() => window.scrollTo(0, 0)}
                         className="w-full h-[300px] md:h-[350px] object-cover object-top rounded-lg transition-transform duration-300 group-hover:scale-110"

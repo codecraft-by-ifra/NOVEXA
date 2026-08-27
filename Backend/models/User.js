@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
     type: Object,
     default: {},
   },
+   wishlist: {
+    type: Array,
+    default: [],
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

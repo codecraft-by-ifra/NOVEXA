@@ -21,6 +21,8 @@ export default function CartItems() {
         return total;
     }
 
+    const hasItems = Object.values(cartitems).some((qty) => qty > 0);
+
     return (
         <div className="flex flex-col gap-4 px-4 md:px-16 py-8">
             <div className="grid grid-cols-6 items-center gap-4 text-gray-400 text-xs md:text-sm font-semibold uppercase tracking-wide">
@@ -33,11 +35,24 @@ export default function CartItems() {
             </div>
             <hr className="border-gray-200" />
 
+            {!hasItems && (
+                <div className="flex flex-col items-center justify-center gap-2 py-16">
+                    <span className="text-4xl">🛒</span>
+                    <p className="text-gray-500 text-sm md:text-base m-0">Your cart is empty</p>
+                    <button
+                        onClick={() => navigate('/')}
+                        className="mt-2 px-6 py-2.5 rounded-full border border-gray-300 text-gray-700 text-sm font-semibold cursor-pointer hover:bg-gray-50 transition-colors"
+                    >
+                        Continue Shopping
+                    </button>
+                </div>
+            )}
+
             {all_product.map((e) => {
                 if (cartitems[e.id] > 0) {
                     return (
                         <div key={e.id}>
-                            <div className="grid grid-cols-6 items-center gap-4 py-2">
+                            <div className="grid grid-cols-6 items-center gap-4 py-3 hover:bg-gray-50/60 rounded-xl transition-colors">
                                 <img src={e.image} alt='' className="w-14 h-14 md:w-16 md:h-16 object-cover object-top rounded-lg"></img>
                                 <p className="text-gray-700 text-sm md:text-base m-0">{e.name}</p>
                                 <p className="text-gray-700 text-sm md:text-base m-0">${e.new_price}</p>
@@ -73,20 +88,20 @@ export default function CartItems() {
                 return null;
             })}
 
-            <div className="flex flex-col md:flex-row items-start justify-between gap-10 md:gap-20 mt-12 max-w-4xl">
-                <div className="flex flex-col gap-5 w-full max-w-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mt-12 w-full">
+                <div className="flex flex-col gap-5 w-full bg-gradient-to-br from-orange-50 via-rose-50 to-pink-50 rounded-2xl p-6 border border-orange-100">
                     <h1 className="text-xl md:text-2xl font-bold text-gray-900 m-0">Cart Totals</h1>
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-3 bg-white/70 rounded-xl px-4 py-3">
                         <div className="flex items-center justify-between">
                             <p className="text-gray-500 text-sm md:text-base m-0">Subtotal</p>
                             <p className="text-gray-800 text-sm md:text-base font-medium m-0">${getTotalCartAmount()}</p>
                         </div>
-                        <hr className="border-gray-100" />
+                        <hr className="border-gray-200" />
                         <div className="flex items-center justify-between">
                             <p className="text-gray-500 text-sm md:text-base m-0">Shipping Fee</p>
-                            <p className="text-gray-800 text-sm md:text-base font-medium m-0">Free</p>
+                            <p className="text-green-600 text-sm md:text-base font-medium m-0">Free</p>
                         </div>
-                        <hr className="border-gray-100" />
+                        <hr className="border-gray-200" />
                         <div className="flex items-center justify-between">
                             <h3 className="text-gray-900 text-base md:text-lg font-bold m-0">Total</h3>
                             <p className="text-gray-900 text-base md:text-lg font-bold m-0">${getTotalCartAmount()}</p>
@@ -100,18 +115,55 @@ export default function CartItems() {
                     </button>
                 </div>
 
-                <div className="flex flex-col gap-4 w-full max-w-sm">
-                    <p className="text-gray-500 text-sm m-0">
-                        If you have a promo code, enter it here.
-                    </p>
-                    <div className="flex items-center bg-gray-50 rounded-full overflow-hidden border border-gray-200">
-                        <input
-                            placeholder='Promo Code'
-                            className="flex-1 px-5 py-3 text-sm md:text-base text-gray-700 outline-none bg-transparent"
-                        ></input>
-                        <button className="bg-gray-900 text-white text-xs md:text-sm font-bold tracking-wide px-6 py-3 m-1 rounded-full cursor-pointer hover:bg-gray-800 transition-colors">
-                            Submit
-                        </button>
+                
+                <div className="flex flex-col gap-5 w-full bg-gradient-to-br from-orange-50 via-rose-50 to-pink-50 rounded-2xl p-6 border border-orange-100">
+                    <div className="flex items-center gap-2">
+                        <span className="text-lg">✨</span>
+                        <h3 className="text-gray-900 font-bold text-sm md:text-base m-0">Why shop with us</h3>
+                    </div>
+
+                    <div className="flex flex-col gap-4">
+                        <div className="flex items-center gap-4 bg-white/70 rounded-xl px-4 py-3">
+                            <span className="w-11 h-11 flex items-center justify-center rounded-full bg-white shadow-sm text-xl shrink-0">
+                                🚚
+                            </span>
+                            <div>
+                                <p className="text-gray-900 font-semibold text-sm md:text-base m-0">
+                                    Fast Delivery
+                                </p>
+                                <p className="text-gray-500 text-xs md:text-sm mt-0.5 m-0">
+                                    Arrives in 3–5 business days
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-4 bg-white/70 rounded-xl px-4 py-3">
+                            <span className="w-11 h-11 flex items-center justify-center rounded-full bg-white shadow-sm text-xl shrink-0">
+                                ↩️
+                            </span>
+                            <div>
+                                <p className="text-gray-900 font-semibold text-sm md:text-base m-0">
+                                    Easy Returns
+                                </p>
+                                <p className="text-gray-500 text-xs md:text-sm mt-0.5 m-0">
+                                    30-day hassle-free returns
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-4 bg-white/70 rounded-xl px-4 py-3">
+                            <span className="w-11 h-11 flex items-center justify-center rounded-full bg-white shadow-sm text-xl shrink-0">
+                                🔒
+                            </span>
+                            <div>
+                                <p className="text-gray-900 font-semibold text-sm md:text-base m-0">
+                                    Secure Checkout
+                                </p>
+                                <p className="text-gray-500 text-xs md:text-sm mt-0.5 m-0">
+                                    Your data is always protected
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
