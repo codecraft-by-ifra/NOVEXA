@@ -32,7 +32,7 @@ export default function MyOrders() {
 
         const token = localStorage.getItem("auth-token");
         try {
-            const response = await fetch(`http://localhost:4000/cancelorder/${orderId}`, {
+            const response = await fetch(`${API_URL}/cancelorder/${orderId}`, {
                 method: "PUT",
                 headers: { "auth-token": token },
             });

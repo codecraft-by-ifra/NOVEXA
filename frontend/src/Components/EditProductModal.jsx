@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_URL } from '../config';
 
 export default function EditProductModal({ product, onClose, onUpdated }) {
     const [details, setDetails] = useState({
@@ -20,7 +21,7 @@ export default function EditProductModal({ product, onClose, onUpdated }) {
         try {
             const adminToken = localStorage.getItem("admin-token");
 
-            const response = await fetch(`http://localhost:4000/admin/products/${product.id}`, {
+            const response = await fetch(`${API_URL}/admin/products/${product.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

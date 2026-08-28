@@ -23,7 +23,7 @@ export default function AdminProductList() {
 
         try {
             const adminToken = localStorage.getItem("admin-token");
-            const response = await fetch(`http://localhost:4000/admin/products/${product.id}`, {
+            const response = await fetch(`${API_URL}/admin/products/${product.id}`, {
                 method: "DELETE",
                 headers: { "admin-token": adminToken },
             });

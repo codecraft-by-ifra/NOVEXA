@@ -14,7 +14,7 @@ export default function DescriptionBox({ productId }) {
   const fetchReviews = () => {
     if (!productId) return;
 
-    fetch(`http://localhost:4000/reviews/${productId}`)
+    fetch(`${API_URL}/reviews/${productId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {

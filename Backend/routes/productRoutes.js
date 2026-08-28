@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { addProduct, getAllProducts, updateProduct, deleteProduct } = require("../controllers/productController");
-const { validateAddProduct, validateUpdateProduct } = require("../validators/productValidator.js");
+const { validateAddProduct, validateUpdateProduct } = require("../validators/productValidator");
 const fetchAdmin = require("../middleware/fetchAdmin.js")
 
 router.post("/addproduct", fetchAdmin, validateAddProduct, addProduct);
