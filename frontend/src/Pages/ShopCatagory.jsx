@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { ShopContext } from '../Context/ShopContext';
+import React, {useEffect, useState } from 'react'
 import dropdown from '../Components/Assets/dropdown_icon.png';
 import Item from '../Components/Item';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../config';
+
 
 export default function ShopCatagory(props) {
-  const { all_product } = useContext(ShopContext);
   const [products, setProducts] = useState([]);
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -13,7 +13,7 @@ export default function ShopCatagory(props) {
   const [sortOrder, setSortOrder] = useState("");
 
   const fetchFiltered = () => {
-    let url = `http://localhost:4000/allproducts?category=${props.category.toLowerCase()}`;
+    let url = `${API_URL}/allproducts?category=${props.category.toLowerCase()}`;
     if (minPrice) url += `&minPrice=${minPrice}`;
     if (maxPrice) url += `&maxPrice=${maxPrice}`;
 
